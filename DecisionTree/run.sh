@@ -1,3 +1,3 @@
 #!/bin/bash
-python3 ID3.py
-python3 test_bank_data.py
+python3 ID3_car.py
+python3 ID3_bank.py
