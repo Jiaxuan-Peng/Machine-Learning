@@ -149,7 +149,7 @@ if __name__ == '__main__':
             x_testdf[i] = np.where(x_testdf[i]=="unknown", x_testdf[i].value_counts().index.tolist()[1], x_testdf[i])
         else:
             x_testdf[i] = np.where(x_testdf[i]=="unknown", x_testdf[i].mode(), x_testdf[i])
-    x_train = x_testdf.to_dict('records')
+    x_test = x_testdf.to_dict('records')
 
     for j in range(1,17):
         for i in ["EP", "ME","GI"]:
