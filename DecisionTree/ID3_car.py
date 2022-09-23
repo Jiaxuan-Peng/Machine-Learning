@@ -21,27 +21,29 @@ class DecisionTree():
         self.x_dic = x_dic
 
     def cal_gain(self, labels):
-        measure = 0
+        total_gain = 0
         n = len(labels)
-        counter = Counter(labels)
+        count = Counter(labels)
         if self.gain == 'GI':
-            measure = 1 - sum((counter[count] / n) ** 2 for count in counter)
+            total_gain = 1 - sum((count[i]/n) ** 2 for i in count)
         elif self.gain == 'ME':
-            if counter.most_common(1) != []:
-                measure = 1 - counter.most_common(1)[0][1]/ n
+            if max(count.values(), default=0) != 0:
+                total_gain = 1 - max(count.values())/ n
             else:
-                measure = 0
+                total_gain = 0
         elif self.gain == 'EP':
-            measure = sum(-counter[count] / n * np.log2(counter[count] / n) for count in counter)
-        return measure
+            total_gain = sum(-count[i]/n * np.log2(count[i]/n) for i in count)
+        return total_gain
 
     def best_attr(self, S, x_dic, labels):
         max_gain = -1
-        best_attr = None
         for node in x_dic:
             gain = 0
             for v in x_dic[node]:
-                y_sub = [labels[j] for j in range(len(labels)) if S[j][node] == v]
+                y_sub = []
+                for j in range(len(labels)):
+                    if S[j][node] == v:
+                        y_sub.append(labels[j])
                 gain += (len(y_sub) / len(labels)) * self.cal_gain(y_sub)
             if (self.cal_gain(labels) - gain) > max_gain:
                 max_gain = self.cal_gain(labels) - gain
