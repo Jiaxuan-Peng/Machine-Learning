@@ -13,7 +13,7 @@ if __name__ == '__main__':
     x_test = []
     y_test = []
 
-    with open('D:/utah/courses/y1s1/ml/h1/car/train.csv', 'r') as f:
+    with open('/home/u1413911/Downloads/Machine-Learning-main/DecisionTree/car/train.csv', 'r') as f:
         for line in f:
             x_val = {}
             term = line.strip().split(',')
@@ -22,7 +22,7 @@ if __name__ == '__main__':
             x_train.append(x_val)
             y_train.append(term[-1])
 
-    with open('D:/utah/courses/y1s1/ml/h1/car/test.csv', 'r') as f:
+    with open('/home/u1413911/Downloads/Machine-Learning-main/DecisionTree/car/test.csv', 'r') as f:
         for line in f:
             x_val = {}
             term = line.strip().split(',')

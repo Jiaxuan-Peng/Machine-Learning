@@ -19,7 +19,7 @@ if __name__ == '__main__':
     x_test = []
     y_test = []
 
-    with open('D:/utah/courses/y1s1/ml/h1/bank/train.csv', 'r') as f:
+    with open('/home/u1413911/Downloads/Machine-Learning-main/DecisionTree/bank/train.csv', 'r') as f:
         for line in f:
             x_val = {}
             term = line.strip().split(',')
@@ -35,7 +35,7 @@ if __name__ == '__main__':
         x_traindf[i] = np.where(x_traindf[i].astype(int) >(int(x_traindf[i].median())), 1, x_traindf[i])
     x_train = x_traindf.to_dict('records')
 
-    with open('D:/utah/courses/y1s1/ml/h1/bank/test.csv', 'r') as f:
+    with open('/home/u1413911/Downloads/Machine-Learning-main/DecisionTree/bank/test.csv', 'r') as f:
         for line in f:
             x_val = {}
             term = line.strip().split(',')
