@@ -70,7 +70,7 @@ class DecisionTree():
                 new_branch.label = Counter(labels).most_common(1)[0][0]
                 root.child[v]=new_branch
             else:
-                sub_attrs = copy.deepcopy(x_dic)
+                sub_attrs = copy.copy(x_dic)
                 sub_attrs.pop(A)
                 root.child[v] = self.ID3(S_val, sub_attrs, S_val_labels, max_dep - 1)
         return root
