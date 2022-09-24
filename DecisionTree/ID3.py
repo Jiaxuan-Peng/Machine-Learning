@@ -18,22 +18,26 @@ class DecisionTree():
         self.max_dep = max_dep
         self.labels = labels
         self.x_dic = x_dic
-
+        
     def cal_gain(self, labels):
         total_gain = 0
+        total_gain_temp = 0
         n = len(labels)
         count = Counter(labels)
         if self.gain == 'GI':
-            total_gain = 1 - sum((count[i]/n) ** 2 for i in count)
+            for i in count:
+                total_gain_temp += (count[i]/n) ** 2
+                total_gain = 1 - total_gain_temp
         elif self.gain == 'ME':
             if max(count.values(), default=0) != 0:
                 total_gain = 1 - max(count.values())/ n
             else:
                 total_gain = 0
         elif self.gain == 'EP':
-            total_gain = sum(-count[i]/n * np.log2(count[i]/n) for i in count)
+            for i in count:
+                total_gain += -count[i]/n * np.log2(count[i]/n)
         return total_gain
-
+    
     def best_attr(self, S, x_dic, labels):
         max_gain = -1
         for node in x_dic:
