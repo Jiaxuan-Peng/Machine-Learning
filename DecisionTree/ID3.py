@@ -54,7 +54,7 @@ class DecisionTree():
         return best_attr
 
     def ID3(self, S, x_dic, labels, max_dep):
-        if len(set(labels)) == 1 or len(x_dic) == 0 or max_dep == 0:
+        if len(np.unique(labels)) == 1 or len(x_dic) == 0 or max_dep == 0:
             leaf = Tree(None)
             leaf.label = Counter(labels).most_common(1)[0][0]
             return leaf
@@ -77,9 +77,9 @@ class DecisionTree():
                 sub_attrs.pop(A)
                 root.child[v] = self.ID3(S_val, sub_attrs, S_val_labels, max_dep - 1)
         return root
-
     def ID3_rev(self, S):
         self.root = self.ID3(S, self.x_dic, self.labels, self.max_dep)
+        
     def fit(self, S):
         y_pred = []
         for x_val in S:
