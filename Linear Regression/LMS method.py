@@ -63,13 +63,13 @@ def StochasticGradientDescent(x, y, r, tolerance=1e-5, max_iter=10000):
     return b, w, Cost
 
 train=[]
-with open('D:/utah/courses/y1s1/ml/h2/concrete/train.csv', 'r') as f:
+with open('/home/u1413911/Downloads/Machine-Learning-main/LinearRegression/concrete/train.csv', 'r') as f:
     for line in f:
         terms = line.strip().split(',')
         train.append(terms)
 
 test=[]
-with open('D:/utah/courses/y1s1/ml/h2/concrete/test.csv', 'r') as f:
+with open('/home/u1413911/Downloads/Machine-Learning-main/LinearRegression/concrete/test.csv', 'r') as f:
     for line in f:
         terms = line.strip().split(',')
         test.append(terms)
