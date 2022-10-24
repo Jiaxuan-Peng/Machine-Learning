@@ -3,7 +3,7 @@ import copy
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from DT import Tree, cal_gain,Node,ID3
+from DT_credit import Tree, cal_gain,Node,ID3
 
 def fit(dataset, gain, x_dic, labels, T):
     DT = []
