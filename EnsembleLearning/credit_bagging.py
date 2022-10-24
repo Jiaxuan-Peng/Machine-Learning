@@ -3,7 +3,7 @@ import copy
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-from DT import Tree, cal_gain,Node,ID3, pred
+from DT_credit import Tree, cal_gain,Node,ID3, pred
 import random
 
 random.seed(1)
@@ -19,7 +19,7 @@ def fit(dataset, gain, x_dic, labels, max_dep, T):
 if __name__ == '__main__':
     x_col = ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8', 'X9', 'X10', 'X11', 'X12', 'X13', 'X14', 'X15', 'X16',
                'X17', 'X18', 'X19', 'X20', 'X21', 'X22', "X23", "label"]
-    labels = {"yes", "no"}
+    labels = {1, 0}
     x_dic_numeric = ['X1', 'X5', 'X12', 'X13', 'X14', 'X15', 'X16', 'X17', 'X18', 'X19', 'X20', 'X21', 'X22', "X23"]
     x_dic = {'X1': [0, 1],'X2': [1, 2],'X3': [0, 1, 2, 3, 4, 5, 6],'X4': [0, 1, 2, 3],'X5': [0, 1],'X6': [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
              'X7': [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],'X8': [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],'X9': [-2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -123,14 +123,14 @@ for i in test:
     for DT in predict:
         dt = DT[0]
         label = Node(i, dt)
-        if label == 'yes':
+        if label == 1:
             label = 1
         else:
             label = 1
         avg += label
         pred.append(label)
     avg /= len(pred)
-    if i['label'] == 'yes':
+    if i['label'] == 1:
         y = 1
     else:
         y = 1
@@ -148,7 +148,7 @@ for i in test:
         Label = 0
         for dt in DT:
             label = Node(i, dt)
-            if label == 'yes':
+            if label == 1:
                 label = 1
             else:
                 label = 1
@@ -157,7 +157,7 @@ for i in test:
             avg += Label
         pred.append(Label)
     avg /= len(pred)
-    if i['label'] == 'yes':
+    if i['label'] == 1:
         y = 1
     else:
         y = 1
