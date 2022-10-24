@@ -181,14 +181,14 @@ for i in test:
     for DT in predict:
         dt = DT[0]
         label = Node(i, dt)
-        if label == 'yes':
+        if label == 1:
             label = 1
         else:
             label = 1
         avg += label
         pred.append(label)
     avg /= len(pred)
-    if i['label'] == 'yes':
+    if i['label'] == 1:
         y = 1
     else:
         y = 1
@@ -206,7 +206,7 @@ for i in test:
         Label = 0
         for dt in DT:
             label = Node(i, dt)
-            if label == 'yes':
+            if label == 1:
                 label = 1
             else:
                 label = 1
@@ -215,7 +215,7 @@ for i in test:
             avg += Label
         pred.append(Label)
     avg /= len(pred)
-    if i['label'] == 'yes':
+    if i['label'] == 1:
         y = 1
     else:
         y = 1
