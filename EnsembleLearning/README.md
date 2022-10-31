@@ -2,6 +2,7 @@ For the bank dataset, the related .py files require a long time to obtain the re
 
 For the credit dataset, unfortunately, there is a bug and I fail to get the result.
 
+#adaboost
 e1, e2 = adaboost(train, test, 'EP', x_dic, labels, 25)
 
 #bagging
