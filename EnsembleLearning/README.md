@@ -9,3 +9,8 @@ e1, e2 = adaboost(train, test, 'EP', x_dic, labels, 25)
     trees = fit(train, 'EP', x_dic, labels, 1e+8, T)
     h_tr = pred(train, trees)
     h_te = pred(test, trees)
+    
+#random forecast
+    trees = fit(train, 'EP', x_dic, labels, 1e+8, T, 2)
+    h_tr = pred(train, trees)
+    h_te = pred(test, trees)
