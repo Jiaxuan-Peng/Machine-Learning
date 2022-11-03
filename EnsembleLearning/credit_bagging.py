@@ -4,17 +4,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from DT_credit import Tree, cal_gain,Node,ID3, pred
+from bagging import fit
 import random
 
 random.seed(1)
-
-def fit(dataset, gain, x_dic, labels, max_dep, T):
-    DT = []
-    for t in range(0, T):
-        r_data = [random.choice(dataset) for i in range(len(dataset))]
-        dt = ID3(r_data, gain, x_dic, labels, max_dep)
-        DT.append(dt)
-    return DT
 
 if __name__ == '__main__':
     x_col = ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8', 'X9', 'X10', 'X11', 'X12', 'X13', 'X14', 'X15', 'X16',
