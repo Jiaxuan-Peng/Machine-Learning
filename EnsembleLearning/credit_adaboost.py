@@ -4,47 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from DT_credit import Tree, cal_gain,Node,ID3
-
-def fit(dataset, gain, x_dic, labels, T):
-    DT = []
-    alphas = []
-    for t in range(0, T):
-        dt = ID3(dataset, gain, x_dic, labels, 2)
-        DT.append(dt)
-        error = 0
-        for i in dataset:
-            node = Node(i, dt)
-            if node != i['label']:
-                error += i['w']
-        alpha = 0.5 * math.log((1 - error) / error)
-        alphas.append(alpha)
-        norm = 0
-        for i in dataset:
-            node = Node(i, dt)
-            if node != i['label']:
-                w_new = i['w'] * math.exp(alpha)
-            else:
-                w_new = i['w'] * math.exp(-alpha)
-            i['w'] = w_new
-            norm += w_new
-        for i in dataset:
-            i['w'] /= norm
-    return DT, alphas
-
-
-def pred(dataset, DT, alphas):
-    r = 0
-    for i in dataset:
-        pred = 0
-        for dt, alpha in zip(DT, alphas):
-            node = Node(i, dt)
-            node = 1 if node == 1 else -1
-            pred += node * alpha
-        if i['label'] == 1 and pred > 0:
-            r += 1
-        if i['label'] == 0 and pred < 0:
-            r += 1
-    return r / (len(dataset))
+from adaboost import fit, pred, adaboost
 
 if __name__ == '__main__':
     x_col = ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8', 'X9', 'X10', 'X11', 'X12', 'X13', 'X14', 'X15', 'X16',
@@ -106,43 +66,6 @@ for i in x_dic_numeric:
     testdf[i] = np.where(testdf[i].astype(int) <= (int(float(testdf[i].median()))), 0, testdf[i])
     testdf[i] = np.where(testdf[i].astype(int) > (int(float(testdf[i].median()))), 1, testdf[i])
 test = testdf.to_dict('records')
-
-def adaboost(train, test, gain, x_dic, labels, T):
-    e1 = []
-    e2 = []
-
-    for i in train:
-        i['w'] = 1 / float(len(train))
-    for i in test:
-        i['w'] = 1 / float(len(test))
-    for t in range(0, T):
-        dt = ID3(train, gain, x_dic, labels, 1)
-        err1 = 0
-        for i in train:
-            node = Node(i, dt)
-            if node != i['label']:
-                err1 += i['w']
-        err_train = err1
-        err2 = 0
-        for i in test:
-            node = Node(i, dt)
-            if node != i['label']:
-                err2 += i['w']
-        err_test = err2
-        e1.append(err_train)
-        e2.append(err_test)
-        alpha = 0.5 * math.log((1 - err_train) / err_train)
-        norm = 0
-        for i in train:
-            if node != i['label']:
-                w_new = i['w'] * math.exp(alpha)
-            else:
-                w_new = i['w'] * math.exp(-alpha)
-            i['w'] = w_new
-            norm += w_new
-        for i in train:
-            i['w'] /= norm
-    return e1, e2
 
 
 print("it's generating Decision stumps for each iteration...")
