@@ -46,6 +46,43 @@ def pred(dataset, DT, alphas):
             r += 1
     return r / (len(dataset))
 
+def adaboost(train, test, gain, x_dic, labels, T):
+    e1 = []
+    e2 = []
+
+    for i in train:
+        i['w'] = 1 / float(len(train))
+    for i in test:
+        i['w'] = 1 / float(len(test))
+    for t in range(0, T):
+        dt = ID3(train, gain, x_dic, labels, 1)
+        # calculate votes
+        err1 = 0
+        for i in train:
+            node = Node(i, dt)
+            if node != i['label']:
+                err1 += i['w']
+        err_train = err1
+        err2 = 0
+        for i in test:
+            node = Node(i, dt)
+            if node != i['label']:
+                err2 += i['w']
+        err_test = err2
+        e1.append(err_train)
+        e2.append(err_test)
+        alpha = 0.5 * math.log((1 - err_train) / err_train)
+        norm = 0
+        for i in train:
+            if node != i['label']:
+                w_new = i['w'] * math.exp(alpha)
+            else:
+                w_new = i['w'] * math.exp(-alpha)
+            i['w'] = w_new
+            norm += w_new
+        for i in train:
+            i['w'] /= norm
+    return e1, e2
 
 if __name__ == '__main__':
 
@@ -98,44 +135,6 @@ if __name__ == '__main__':
         testdf[i] = np.where(testdf[i].astype(int) <=(int(testdf[i].median())), 0, testdf[i])
         testdf[i] = np.where(testdf[i].astype(int) >(int(testdf[i].median())), 1, testdf[i])
     test = testdf.to_dict('records')
-
-def adaboost(train, test, gain, x_dic, labels, T):
-    e1 = []
-    e2 = []
-
-    for i in train:
-        i['w'] = 1 / float(len(train))
-    for i in test:
-        i['w'] = 1 / float(len(test))
-    for t in range(0, T):
-        dt = ID3(train, gain, x_dic, labels, 1)
-        # calculate votes
-        err1 = 0
-        for i in train:
-            node = Node(i, dt)
-            if node != i['label']:
-                err1 += i['w']
-        err_train = err1
-        err2 = 0
-        for i in test:
-            node = Node(i, dt)
-            if node != i['label']:
-                err2 += i['w']
-        err_test = err2
-        e1.append(err_train)
-        e2.append(err_test)
-        alpha = 0.5 * math.log((1 - err_train) / err_train)
-        norm = 0
-        for i in train:
-            if node != i['label']:
-                w_new = i['w'] * math.exp(alpha)
-            else:
-                w_new = i['w'] * math.exp(-alpha)
-            i['w'] = w_new
-            norm += w_new
-        for i in train:
-            i['w'] /= norm
-    return e1, e2
 
 
 print("it's generating Decision stumps for each iteration...")
