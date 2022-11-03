@@ -4,67 +4,11 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 from DT_credit import Tree, cal_gain,Node, pred
+from randomforest import ID3, fit
 import random
 
 random.seed(1)
 
-def ID3(dataset, gain, x_dic, labels, max_dep, size):
-    if (len(x_dic) == 0) or max_dep == 0:
-        c = {}
-        for i in dataset:
-            label = i['label']
-            if label not in c:
-                c[label] = 0
-            c[label] += i['w']
-        node = max(c.keys(), key=lambda key: c[key])
-        return Tree(node)
-    if (len(labels) == 1):
-        return Tree(labels.pop())
-    total_gain = {}
-    for ln, lv in x_dic.items():
-        total_gain_temp = cal_gain(dataset, gain, ln, lv)
-        total_gain[ln] = total_gain_temp
-        best_attr = max(total_gain.keys(), key=lambda key: total_gain[key])
-    root = Tree(best_attr)
-    for v in x_dic[best_attr]:
-        sub_set = []
-        for i in dataset:
-            if i[best_attr] == v:
-                sub_set.append(i)
-        if len(sub_set) == 0:
-            c = {}
-            for i in dataset:
-                label = i['label']
-                if label not in c:
-                    c[label] = 0
-                c[label] += i['w']
-            node = max(c.keys(), key=lambda key: c[key])
-            root.child[v] = Tree(node)
-        else:
-            sub_x_dic = copy.copy(x_dic)
-            sub_x_dic.pop(best_attr)
-            sub_attr = {}
-            dict_copy = list(sub_x_dic.keys())
-            while len(sub_attr) < size:
-                id = random.randint(0, len(dict_copy) - 1)
-                dict = dict_copy[id]
-                if dict not in sub_attr:
-                    sub_attr[dict] = sub_x_dic[dict]
-            sub_labels = set()
-            for i in sub_set:
-                sub_label = i['label']
-                if sub_labels not in sub_labels:
-                    sub_labels.add(sub_label)
-            root.child[v] = ID3(sub_set, gain, sub_attr, sub_labels, max_dep-1, size)
-    return root
-
-def fit(dataset, gain, x_dic, labels, max_dep, T, size):
-    DT = []
-    for t in range(0, T):
-        r_data = [random.choice(dataset) for i in range(len(dataset))]
-        dt = ID3(r_data, gain, x_dic, labels, max_dep, size)
-        DT.append(dt)
-    return DT
 
 if __name__ == '__main__':
     x_col = ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 'X7', 'X8', 'X9', 'X10', 'X11', 'X12', 'X13', 'X14', 'X15', 'X16',
