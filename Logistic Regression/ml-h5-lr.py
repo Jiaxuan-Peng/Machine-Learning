@@ -1,15 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[340]:
+# In[39]:
 
 
 import numpy as np
 import pandas as pd
 from sklearn.utils import shuffle
+from numpy import linalg
 
 
-# In[341]:
+# In[40]:
 
 
 # Set the maximum number of epochs T to 100
@@ -24,7 +25,7 @@ def LR_MAP(x, y, v, gamma, d, T, tolerance):
         x, y = shuffle(x, y,random_state = 1)
         for j in range(len(y)):
             temp = [1/v * i for i in w]
-            L = (-m*y[j]*x.iloc[j])/(1+np.exp(np.dot(w,x.loc[j])*y[j]))+temp
+            L = (-m*y[j]*x.iloc[j]*np.exp(-np.dot(w,x.loc[j])*y[j]))/(1+np.exp(-np.dot(w,x.loc[j])*y[j]))+temp
             w = w - gamma*L
             gamma = gamma_0/(1+gamma_0/d*i)
             diff = linalg.norm(L)
@@ -34,7 +35,7 @@ def LR_MAP(x, y, v, gamma, d, T, tolerance):
     return w
 
 
-# In[347]:
+# In[41]:
 
 
 # the maximum likelihood (ML) estimation
@@ -47,17 +48,17 @@ def LR_ML(x, y, v, gamma, d, T, tolerance):
     for i in range(T):
         x, y = shuffle(x, y,random_state = 1)
         for j in range(len(y)):
-            L = (-m*y[j]*x.iloc[j])/(1+np.exp(np.dot(w,x.loc[j])*y[j]))
+            L = (-m*y[j]*x.iloc[j]*np.exp(-np.dot(w,x.loc[j])*y[j]))/(1+np.exp(-np.dot(w,x.loc[j])*y[j]))
             w = w - gamma*L
             gamma = gamma_0/(1+gamma_0/d*i)
-            diff = linalg.norm(L)
+            diff = np.linalg.norm(L)
             #convergenc
             if (diff < tolerance):
                 return w
     return w
 
 
-# In[343]:
+# In[42]:
 
 
 def Prediction_LR(x, y, w):
@@ -74,7 +75,7 @@ def Prediction_LR(x, y, w):
     return error
 
 
-# In[344]:
+# In[43]:
 
 
 #train = pd.read_csv('train.csv', header=None)
@@ -108,7 +109,7 @@ y_test.loc[y_test == 0] = -1
 pd.options.mode.chained_assignment = None  # default='warn'
 
 
-# In[345]:
+# In[ ]:
 
 
 variance = [0.01, 0.1, 0.5, 1, 3, 5, 10, 100]
@@ -120,7 +121,7 @@ for v in variance:
     print("variance",v,"error_train:{:.3f}".format(error_train),"error_test:{:.3f}".format(error_test))
 
 
-# In[348]:
+# In[38]:
 
 
 variance = [0.01, 0.1, 0.5, 1, 3, 5, 10, 100]
