@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[39]:
+# In[45]:
 
 
 import numpy as np
@@ -10,7 +10,7 @@ from sklearn.utils import shuffle
 from numpy import linalg
 
 
-# In[40]:
+# In[46]:
 
 
 # Set the maximum number of epochs T to 100
@@ -35,7 +35,7 @@ def LR_MAP(x, y, v, gamma, d, T, tolerance):
     return w
 
 
-# In[41]:
+# In[47]:
 
 
 # the maximum likelihood (ML) estimation
@@ -58,7 +58,7 @@ def LR_ML(x, y, v, gamma, d, T, tolerance):
     return w
 
 
-# In[42]:
+# In[48]:
 
 
 def Prediction_LR(x, y, w):
@@ -75,12 +75,12 @@ def Prediction_LR(x, y, w):
     return error
 
 
-# In[43]:
+# In[51]:
 
 
-#train = pd.read_csv('train.csv', header=None)
-#test = pd.read_csv('test.csv', header=None)
-
+train = pd.read_csv('train.csv', header=None)
+test = pd.read_csv('test.csv', header=None)
+'''
 train=[]
 with open('/home/u1413911/Downloads/Machine-Learning-main/LinearRegression/concrete/train.csv', 'r') as f:
     for line in f:
@@ -92,7 +92,7 @@ with open('/home/u1413911/Downloads/Machine-Learning-main/LinearRegression/concr
     for line in f:
         terms = line.strip().split(',')
         test.append(terms)
-        
+'''        
 train = pd.DataFrame(train,dtype='float64')
 test = pd.DataFrame(test,dtype='float64')
 
@@ -116,8 +116,8 @@ variance = [0.01, 0.1, 0.5, 1, 3, 5, 10, 100]
 for v in variance:
     w1 = LR_MAP(x_train, y_train, v, gamma=0.01, d=0.01, T=100, tolerance=1e-5)
     #print(', '.join('{:.3f}'.format(f) for f in w1))
-    error_train = test_error (x_train, y_train, w1)
-    error_test = test_error (x_test, y_test, w1)
+    error_train = Prediction_LR (x_train, y_train, w1)
+    error_test = Prediction_LR (x_test, y_test, w1)
     print("variance",v,"error_train:{:.3f}".format(error_train),"error_test:{:.3f}".format(error_test))
 
 
