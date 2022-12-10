@@ -43,7 +43,7 @@ def forward(network, inputs):
             activation = node['weights'][-1]
             for i in range(len(node['weights'])-1):
                 activation += node['weights'][i] * inputs[i]            
-            node['output'] = 1.0 / (1.0 + np.exp(-activation))
+            node['output'] = 1/ (1 + np.exp(-activation))
             new_inputs.append(node['output'])
         inputs = new_inputs
     return inputs
@@ -55,7 +55,7 @@ def backward(network, actual):
 		errors = list()
 		if i != len(network)-1:
 			for j in range(len(layer)):
-				error = 0.0
+				error = 0
 				for node in network[i + 1]:
 					error += (node['weights'][j] * node['error'])
 				errors.append(error)
@@ -127,22 +127,8 @@ def fit(weights, x, y, gamma, d,n_outputs, T=100, tolerance=1e-5):
 # In[904]:
 
 
-'''
-train = pd.read_csv('train.csv', header=None)
-test = pd.read_csv('test.csv', header=None)
-'''
-train=[]
-with open('/home/u1413911/Downloads/Machine-Learning-main/LinearRegression/concrete/train.csv', 'r') as f:
-    for line in f:
-        terms = line.strip().split(',')
-        train.append(terms)
-
-test=[]
-with open('/home/u1413911/Downloads/Machine-Learning-main/LinearRegression/concrete/test.csv', 'r') as f:
-    for line in f:
-        terms = line.strip().split(',')
-        test.append(terms)
-
+train = pd.read_csv('/home/u1413911/Downloads/train.csv', header=None)
+test = pd.read_csv('/home/u1413911/Downloads/test.csv', header=None)
 
 # In[905]:
 
@@ -192,14 +178,6 @@ for i in width:
 # In[870]:
 
 
-# Train with initialize_weights as 0
-train = pd.DataFrame(train,dtype='float64')
-train = train.values.tolist()
-x = [row[0:(len(train)-1)] for row in train]
-y = [round(row[-1]) for row in train]
-num_in = len(train[0]) - 1
-num_out = len(set([row[-1] for row in train]))
-
 width = [5, 10, 25, 50, 100]
 for i in width:    
     network = initialize_weights2(num_in, i, num_out)
@@ -213,15 +191,6 @@ for i in width:
 
 
 # In[869]:
-
-
-# Test with initialize_weights as 0
-test = pd.DataFrame(test,dtype='float64')
-test = test.values.tolist()
-x = [row[0:(len(test)-1)] for row in test]
-y = [round(row[-1]) for row in test]
-num_in = len(test[0]) - 1
-num_out = len(set([row[-1] for row in test]))
 
 width = [5, 10, 25, 50, 100]
 for i in width:    
