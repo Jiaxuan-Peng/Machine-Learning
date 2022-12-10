@@ -78,21 +78,8 @@ def Prediction_LR(x, y, w):
 # In[103]:
 
 
-'''
-train = pd.read_csv('train.csv', header=None)
-test = pd.read_csv('test.csv', header=None)
-'''
-train=[]
-with open('/home/u1413911/Downloads/Machine-Learning-main/LinearRegression/concrete/train.csv', 'r') as f:
-    for line in f:
-        terms = line.strip().split(',')
-        train.append(terms)
-
-test=[]
-with open('/home/u1413911/Downloads/Machine-Learning-main/LinearRegression/concrete/test.csv', 'r') as f:
-    for line in f:
-        terms = line.strip().split(',')
-        test.append(terms)
+train = pd.read_csv('/home/u1413911/Downloads/train.csv', header=None)
+test = pd.read_csv('/home/u1413911/Downloads/test.csv', header=None)
         
 train = pd.DataFrame(train,dtype='float64')
 test = pd.DataFrame(test,dtype='float64')
